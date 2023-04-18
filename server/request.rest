@@ -1,0 +1,53 @@
+
+### get all cars
+get http://localhost:3000/cars
+
+
+### get car by id
+get http://localhost:3000/cars/1
+
+### get Autók vezetőikkel ahol nincs vezető azt is
+get http://localhost:3000/carsWithDrivers
+
+### get Autók vezetőikkel ahol nincs vezető azt is
+get http://localhost:3000/carsWithDrivers/1
+
+
+### get Autók vezetőikkel ahol nincs vezető azt nem
+get http://localhost:3000/carsWithDriversReal
+
+
+### post car
+post http://localhost:3000/cars
+Content-Type: application/json
+
+{
+    "name": "Mercedes9",
+    "licenceNumber": "MM-111",
+    "hourlyRate": 2500,
+    "outOfTraffic": true,
+    "driverId": 11
+}
+
+### delete car by id
+delete http://localhost:3000/cars/625
+
+### put car
+put http://localhost:3000/cars/625
+Content-Type: application/json
+
+{
+    "name": "Mercedes3",
+    "licenceNumber": "MM-222",
+    "hourlyRate": 2600,
+    "outOfTraffic": true,
+    "driverId": 1
+}
+
+### get driversAbc
+get http://localhost:3000/driversAbc
+
+### get freeDriversAbc
+get http://localhost:3000/freeDriversAbc
+
+
