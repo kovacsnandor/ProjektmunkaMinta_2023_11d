@@ -39,23 +39,43 @@ async function getTable(){
 
     //vizualizáljuk
     let htmlElement = `
-    <table class="table table-striped table-hover table-bordered">
+    <table class="table table-striped table-hover table-bordered w-auto">
         <thead>
         <tr>
+            <th>
+                <button type="button" class="btn btn-outline-success btn-sm"
+                    data-bs-toggle="modal" data-bs-target="#modalCard"
+                >
+                    Új autó
+                </button>
+            </th>
             <th>név</th>
             <th>rendszám</th>
             <th>tarifa</th>
             <th>vezető</th>
-            <th>Forgalmon kívül</th>
+            <th>Forgalmon<br>kívül</th>
         </tr>
         </thead>
         <tbody>
 
-    `
+    `;
     //ciklus
     for (const car of cars) {
         htmlElement += `
             <tr>
+                <td class="text-nowrap">
+                    <button type="button" 
+                        class="btn btn-outline-danger btn-sm"
+                        data-bs-toggle="modal" data-bs-target="#modalCard"
+                        >
+                        <i class="bi bi-trash3-fill"></i>
+                    </button>
+                    <button type="button" class="btn btn-outline-warning btn-sm"
+                        data-bs-toggle="modal" data-bs-target="#modalCard"
+                    >
+                    <i class="bi bi-pencil-fill"></i>
+                    </button>
+                </td>
                 <td>${car.name}</td>
                 <td>${car.licenceNumber}</td>
                 <td>${car.hourlyRate}</td>
@@ -69,9 +89,7 @@ async function getTable(){
     </tbody>
     </table>
 `
-
     contentBox.innerHTML = htmlElement;
-
 }
 
 async function getCards(){
