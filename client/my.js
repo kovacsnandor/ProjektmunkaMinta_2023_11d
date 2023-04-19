@@ -45,6 +45,7 @@ async function getTable(){
             <th>
                 <button type="button" class="btn btn-outline-success btn-sm"
                     data-bs-toggle="modal" data-bs-target="#modalCard"
+                    onclick="onClickNewButton()"
                 >
                     Új autó
                 </button>
@@ -67,11 +68,14 @@ async function getTable(){
                     <button type="button" 
                         class="btn btn-outline-danger btn-sm"
                         data-bs-toggle="modal" data-bs-target="#modalCard"
-                        >
+                        onclick="onClickDeleteButton(${car.id})"
+                    >
                         <i class="bi bi-trash3-fill"></i>
                     </button>
-                    <button type="button" class="btn btn-outline-warning btn-sm"
+                    <button type="button" 
+                        class="btn btn-outline-warning btn-sm"
                         data-bs-toggle="modal" data-bs-target="#modalCard"
+                        onclick="onClickEditButton(${car.id})"
                     >
                     <i class="bi bi-pencil-fill"></i>
                     </button>
@@ -163,3 +167,17 @@ async function onClickCardButton(id){
     modalContent.innerHTML=htmlElement;
     modalTitle.innerHTML="Autók adatai"
 }
+
+function onClickNewButton(){
+    modalTitle.innerHTML = "Új autó bevitele"
+}
+
+function onClickDeleteButton(){
+    modalTitle.innerHTML = "Autó törlése"
+}
+
+function onClickEditButton(){
+    modalTitle.innerHTML = "Autó módosítása"
+}
+
+
