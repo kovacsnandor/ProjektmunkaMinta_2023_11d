@@ -54,6 +54,7 @@
           <div class="modal-content">
             <div class="modal-header">
               <h1 class="modal-title fs-5" id="exampleModalLabel">
+                <!-- title -->
                 <span id="modalTitle"></span>
               </h1>
               <button
@@ -61,19 +62,39 @@
                 class="btn-close"
                 data-bs-dismiss="modal"
                 aria-label="Close"
+                onclick="onClickCancelButton()"
               ></button>
             </div>
+            <!-- content -->
             <div class="modal-body" id="modalContent">...</div>
+
             <div class="modal-footer">
+              <!-- cancel -->
               <button
                 type="button"
                 class="btn btn-secondary"
                 data-bs-dismiss="modal"
+                onclick="onClickCancelButton()"
               >
-                Close
+                Mégse
               </button>
-              <button type="button" class="btn btn-primary d-none">
+              <!-- save -->
+              <button type="button" 
+                class="btn btn-primary d-none"
+                data-bs-dismiss="modal"
+                id="saveButton"
+                onclick="onClickSaveButton()"
+                >
                 Mentés
+              </button>
+              <!-- yes -->
+              <button type="button" 
+                class="btn btn-primary d-none"
+                data-bs-dismiss="modal"
+                id="yesButton"
+                onclick="onClickYesButton()"
+                >
+                Igen
               </button>
             </div>
           </div>

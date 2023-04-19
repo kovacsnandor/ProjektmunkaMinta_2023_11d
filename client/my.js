@@ -170,14 +170,53 @@ async function onClickCardButton(id){
 
 function onClickNewButton(){
     modalTitle.innerHTML = "Új autó bevitele"
+    buttonShowHide("saveButton", true)
+
 }
 
 function onClickDeleteButton(){
     modalTitle.innerHTML = "Autó törlése"
+    modalContent.innerHTML = "Valóban törölni akarod?"
+    buttonShowHide("yesButton", true)
+
 }
 
 function onClickEditButton(){
     modalTitle.innerHTML = "Autó módosítása"
+    buttonShowHide("saveButton", true)
+       
+
+}
+
+function onClickSaveButton(){
+    buttonShowHide("saveButton", false)
+    buttonShowHide("yesButton", false)
+
+}
+
+
+function onClickYesButton(){
+    buttonShowHide("saveButton", false)
+    buttonShowHide("yesButton", false)
+
+}
+
+function onClickCancelButton(){
+    //Eltünteti: Save, és Yes gombokat
+    buttonShowHide("saveButton", false)
+    buttonShowHide("yesButton", false)
+}
+
+
+function buttonShowHide(buttonId, ShowHide) {
+  const button = document.getElementById(buttonId);
+  if (ShowHide) {
+    //megjelenít
+    button.classList.remove("d-none");
+  } else {
+    //Eltüntet
+    button.classList.add("d-none");
+  }
 }
 
 
