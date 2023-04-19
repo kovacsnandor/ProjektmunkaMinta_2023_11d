@@ -12,6 +12,7 @@ function getHome(){
 
     contentBox.innerHTML = htmlElement;
 }
+
 function getAbout(){
     let htmlElement = `
     <h1>About</h1>
@@ -19,6 +20,7 @@ function getAbout(){
     `
     contentBox.innerHTML = htmlElement;
 }
+
 function getContact(){
     let htmlElement = `
     <h1>Contact</h1>
