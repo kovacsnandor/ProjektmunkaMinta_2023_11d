@@ -168,9 +168,49 @@ async function onClickCardButton(id){
     modalTitle.innerHTML="Autók adatai"
 }
 
-function onClickNewButton(){
+async function onClickNewButton(){
     modalTitle.innerHTML = "Új autó bevitele"
     buttonShowHide("saveButton", true)
+    const url="http://localhost:3000/driversAbc"
+    const response = await fetch(url);
+    const data = await response.json();
+    const drivers = data.data;
+    console.log(drivers);
+
+
+    let htmlElement = `
+    <div class="col-12">
+        <label for="name" class="form-label">Autó neve:</label>
+        <input type="text" class="form-control" id="name">
+    </div>
+    
+    <div class="col-6">
+        <label for="licenceNumber" class="form-label">Rendszám:</label>
+        <input type="text" class="form-control" id="licenceNumber">
+    </div>
+    <div class="col-5">
+        <label for="hourlyRate" class="form-label">Tarifa (Ft/óra):</label>
+        <input type="number" class="form-control" id="hourlyRate">
+    </div>
+    
+
+    <div class="form-check col-6">
+        <input class="form-check-input" type="checkbox" value="" id="outOfTraffic">
+        <label class="form-check-label" for="outOfTraffic">
+        Forgamon kívül
+        </label>
+    </div>
+
+    <select class="form-select" aria-label="Default select example" id="driverId">`
+    // ciklus
+    for (const driver of drivers) {
+        htmlElement +=`<option value="${driver.id}">${driver.driverName}</option>`;
+    }
+
+    //vége
+    htmlElement+=`</select>`;
+
+    modalContent.innerHTML= htmlElement;
 
 }
 
