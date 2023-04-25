@@ -241,14 +241,14 @@ function onClickDeleteButton(id) {
 }
 
 async function onClickEditButton(id) {
-    let url = "http://localhost:3000/driversAbc";
+    let url = "http://localhost:3000/freeDriversAbc";
     let response = await fetch(url);
     let data = await response.json();
     const drivers = data.data;
   
     state = "edit";
     modalTitle.innerHTML = "Autó módosítása";
-    buttonShowHide("buttonSave", true);
+    buttonShowHide("saveButton", true);
 
   let htmlElement = `
   <div class="col-12">
@@ -328,6 +328,17 @@ async function onClickSaveButton() {
     const url = "http://localhost:3000/cars";
     const response = await fetch(url, config);
   } else if (state === "edit") {
+    const url = `http://localhost:3000/cars/${selectedCarId}`;
+    const body = JSON.stringify(editableCar);
+    const config = {
+      method: "PUT",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: body,
+    };
+    const response = await fetch(url, config);
+
   }
 
   //lássuk hogy bővült a táblázat
