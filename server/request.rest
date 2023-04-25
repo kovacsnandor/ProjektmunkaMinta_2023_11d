@@ -26,7 +26,7 @@ Content-Type: application/json
     "licenceNumber": "MM-111",
     "hourlyRate": 2500,
     "outOfTraffic": true,
-    "driverId": 11
+    "driverId": null
 }
 
 ### delete car by id

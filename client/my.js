@@ -190,7 +190,7 @@ async function onClickNewButton() {
   state = "new";
   modalTitle.innerHTML = "Új autó bevitele";
   buttonShowHide("saveButton", true);
-  const url = "http://localhost:3000/driversAbc";
+  const url = "http://localhost:3000/freeDriversAbc";
   const response = await fetch(url);
   const data = await response.json();
   const drivers = data.data;
@@ -218,7 +218,9 @@ async function onClickNewButton() {
         </label>
     </div>
 
-    <select class="form-select" aria-label="Default select example" id="driverId">`;
+    <select class="form-select" aria-label="Default select example" id="driverId">
+        <option value="null">Nincs sofőr</option>
+    `;
   // ciklus
   for (const driver of drivers) {
     htmlElement += `<option value="${driver.id}">${driver.driverName}</option>`;
@@ -238,10 +240,59 @@ function onClickDeleteButton(id) {
   selectedCarId = id;
 }
 
-function onClickEditButton() {
+async function onClickEditButton(id) {
   state = "edit";
   modalTitle.innerHTML = "Autó módosítása";
   buttonShowHide("saveButton", true);
+  selectedCarId = id;
+
+  let htmlElement = `
+  <div class="col-12">
+      <label for="name" class="form-label">Autó neve:</label>
+      <input type="text" class="form-control" id="name">
+  </div>
+  
+  <div class="col-6">
+      <label for="licenceNumber" class="form-label">Rendszám:</label>
+      <input type="text" class="form-control" id="licenceNumber">
+  </div>
+  <div class="col-5">
+      <label for="hourlyRate" class="form-label">Tarifa (Ft/óra):</label>
+      <input type="number" class="form-control" id="hourlyRate">
+  </div>
+  
+
+  <div class="form-check col-6">
+      <input class="form-check-input" type="checkbox" value="" id="outOfTraffic">
+      <label class="form-check-label" for="outOfTraffic">
+      Forgamon kívül
+      </label>
+  </div>
+
+  <select class="form-select" aria-label="Default select example" id="driverId">
+      <option value="null">Nincs sofőr</option>
+  `;
+  // ciklus
+  for (const driver of drivers) {
+    htmlElement += `<option value="${driver.id}">${driver.driverName}</option>`;
+  }
+
+  //vége
+  htmlElement += `</select>`;
+
+  modalContent.innerHTML = htmlElement;
+  url = `http://localhost:3000/cars/${id}`;
+  response = await fetch(url);
+  data = await response.json();
+  const car = data.data[0];
+  console.log("car", car);
+  document.getElementById("name").value = car.name;
+  document.getElementById("licenceNumber").value = car.licenceNumber;
+  document.getElementById("hourlyRate").value = car.hourlyRate;
+  document.getElementById("outOfTraffic").checked =
+    car.outOfTraffic === "true" ? true : false;
+  document.getElementById("driverId").value = car.driverId;
+  selectedCarId = id;
 }
 
 async function onClickSaveButton() {
@@ -253,7 +304,10 @@ async function onClickSaveButton() {
   editableCar.licenceNumber = document.getElementById("licenceNumber").value;
   editableCar.hourlyRate = document.getElementById("hourlyRate").value;
   editableCar.outOfTraffic = document.getElementById("outOfTraffic").checked;
-  editableCar.driverId = document.getElementById("driverId").value;
+  editableCar.driverId =
+    document.getElementById("driverId").value === "null"
+      ? null
+      : document.getElementById("driverId").value;
   //obj to json konverzió
   editableCar = JSON.stringify(editableCar);
 
