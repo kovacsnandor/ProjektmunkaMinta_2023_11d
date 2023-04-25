@@ -22,7 +22,7 @@ post http://localhost:3000/cars
 Content-Type: application/json
 
 {
-    "name": "Mercedes9",
+    "name": "Mercedes789",
     "licenceNumber": "MM-111",
     "hourlyRate": 2500,
     "outOfTraffic": true,

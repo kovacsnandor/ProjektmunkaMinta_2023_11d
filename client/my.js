@@ -1,68 +1,82 @@
-const contentBox = document.getElementById("contentBox")
-const modalContent = document.getElementById("modalContent")
-const modalTitle = document.getElementById("modalTitle")
+const contentBox = document.getElementById("contentBox");
+const modalContent = document.getElementById("modalContent");
+const modalTitle = document.getElementById("modalTitle");
 
+class Car {
+  constructor(
+    name = null,
+    licenceNumber = null,
+    hourlyRate = null,
+    outOfTraffic = false,
+    driverId = null
+  ) {
+    this.name = name;
+    this.licenceNumber = licenceNumber;
+    this.hourlyRate = hourlyRate;
+    this.outOfTraffic = outOfTraffic;
+    this.driverId = driverId;
+  }
+}
 
-
-function getHome(){
-    let htmlElement = `
+function getHome() {
+  let htmlElement = `
     <h1>Home</h1>
     <p>Ez egy főoldal</p>
-    `
+    `;
 
-    contentBox.innerHTML = htmlElement;
+  contentBox.innerHTML = htmlElement;
 }
 
-function getAbout(){
-    let htmlElement = `
+function getAbout() {
+  let htmlElement = `
     <h1>About</h1>
     <p>Ez egy about</p>
-    `
-    contentBox.innerHTML = htmlElement;
+    `;
+  contentBox.innerHTML = htmlElement;
 }
 
-function getContact(){
-    let htmlElement = `
+function getContact() {
+  let htmlElement = `
     <h1>Contact</h1>
     <p>Ez egy contact</p>
-    `
+    `;
 
-    contentBox.innerHTML = htmlElement;
+  contentBox.innerHTML = htmlElement;
 }
 
-async function getTable(){
-    //lekérjük az adatokat
-    const url = "http://localhost:3000/carsWithDrivers";
-    const response = await fetch(url);
-    const data = await response.json();
-    const cars = data.data;
+async function getTable() {
+  //lekérjük az adatokat
+  const url = "http://localhost:3000/carsWithDrivers";
+  const response = await fetch(url);
+  const data = await response.json();
+  const cars = data.data;
 
-    //vizualizáljuk
-    let htmlElement = `
+  //vizualizáljuk
+  let htmlElement = `
     <table class="table table-striped table-hover table-bordered w-auto">
         <thead>
-        <tr>
-            <th>
-                <button type="button" class="btn btn-outline-success btn-sm"
-                    data-bs-toggle="modal" data-bs-target="#modalCard"
-                    onclick="onClickNewButton()"
-                >
-                    Új autó
-                </button>
-            </th>
-            <th>név</th>
-            <th>rendszám</th>
-            <th>tarifa</th>
-            <th>vezető</th>
-            <th>Forgalmon<br>kívül</th>
-        </tr>
+            <tr>
+                <th>
+                    <button type="button" class="btn btn-outline-success btn-sm"
+                        data-bs-toggle="modal" data-bs-target="#modalCard"
+                        onclick="onClickNewButton()"
+                    >
+                        Új autó
+                    </button>
+                </th>
+                <th>név</th>
+                <th>rendszám</th>
+                <th>tarifa</th>
+                <th>vezető</th>
+                <th>Forgalmon<br>kívül</th>
+            </tr>
         </thead>
         <tbody>
 
     `;
-    //ciklus
-    for (const car of cars) {
-        htmlElement += `
+  //ciklus
+  for (const car of cars) {
+    htmlElement += `
             <tr>
                 <td class="text-nowrap">
                     <button type="button" 
@@ -86,32 +100,32 @@ async function getTable(){
                 <td>${car.driverName}</td>
                 <td>${car.outOfTraffic}</td>
             </tr>
-        `
-    }
-    //maradék
-    htmlElement +=`
-    </tbody>
+        `;
+  }
+  //maradék
+  htmlElement += `
+        </tbody>
     </table>
-`
-    contentBox.innerHTML = htmlElement;
+`;
+  contentBox.innerHTML = htmlElement;
 }
 
-async function getCards(){
-    //lekérjük az adatokat
-    const url = "http://localhost:3000/carsWithDrivers";
-    const response = await fetch(url);
-    const data = await response.json();
-    const cars = data.data;
+async function getCards() {
+  //lekérjük az adatokat
+  const url = "http://localhost:3000/carsWithDrivers";
+  const response = await fetch(url);
+  const data = await response.json();
+  const cars = data.data;
 
-    //vizualizáljuk
-    let htmlElement = `
+  //vizualizáljuk
+  let htmlElement = `
     <h1>Kártyák</h1>
     <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4" data-masonry='{"percentPosition": true }' >
       <!-- ezt ismételgetjük -->
-    `
-    //ciklus
-    for (const car of cars) {
-        htmlElement += `
+    `;
+  //ciklus
+  for (const car of cars) {
+    htmlElement += `
         <div class="col">
         <div class="card">
           <img src="./images/${car.name}.jpg" class="card-img-top" alt="...">
@@ -135,26 +149,25 @@ async function getCards(){
           </div>
         </div>        
       </div>
-        `
-    }
-    //maradék
-    htmlElement +=`
+        `;
+  }
+  //maradék
+  htmlElement += `
     </div>
 
-`
+`;
 
-    contentBox.innerHTML = htmlElement;
-
+  contentBox.innerHTML = htmlElement;
 }
 
-async function onClickCardButton(id){
-    console.log(id);
-    //lekérjük az adatokat
-    const url = `http://localhost:3000/carsWithDrivers/${id}`;
-    const response = await fetch(url);
-    const data = await response.json();
-    const car = data.data[0];
-    let htmlElement = `
+async function onClickCardButton(id) {
+  console.log(id);
+  //lekérjük az adatokat
+  const url = `http://localhost:3000/carsWithDrivers/${id}`;
+  const response = await fetch(url);
+  const data = await response.json();
+  const car = data.data[0];
+  let htmlElement = `
         <h5 class="card-title">${car.name}</h5>
         <img src="./images/${car.name}.jpg" class="card-img-top" alt="...">
         <ul>
@@ -163,22 +176,20 @@ async function onClickCardButton(id){
             <li>${car.driverName}</li>
             <li>${car.outOfTraffic}</li>
         </ul>
-    `
-    modalContent.innerHTML=htmlElement;
-    modalTitle.innerHTML="Autók adatai"
+    `;
+  modalContent.innerHTML = htmlElement;
+  modalTitle.innerHTML = "Autók adatai";
 }
 
-async function onClickNewButton(){
-    modalTitle.innerHTML = "Új autó bevitele"
-    buttonShowHide("saveButton", true)
-    const url="http://localhost:3000/driversAbc"
-    const response = await fetch(url);
-    const data = await response.json();
-    const drivers = data.data;
-    console.log(drivers);
+async function onClickNewButton() {
+  modalTitle.innerHTML = "Új autó bevitele";
+  buttonShowHide("saveButton", true);
+  const url = "http://localhost:3000/driversAbc";
+  const response = await fetch(url);
+  const data = await response.json();
+  const drivers = data.data;
 
-
-    let htmlElement = `
+  let htmlElement = `
     <div class="col-12">
         <label for="name" class="form-label">Autó neve:</label>
         <input type="text" class="form-control" id="name">
@@ -201,52 +212,48 @@ async function onClickNewButton(){
         </label>
     </div>
 
-    <select class="form-select" aria-label="Default select example" id="driverId">`
-    // ciklus
-    for (const driver of drivers) {
-        htmlElement +=`<option value="${driver.id}">${driver.driverName}</option>`;
-    }
+    <select class="form-select" aria-label="Default select example" id="driverId">`;
+  // ciklus
+  for (const driver of drivers) {
+    htmlElement += `<option value="${driver.id}">${driver.driverName}</option>`;
+  }
 
-    //vége
-    htmlElement+=`</select>`;
+  //vége
+  htmlElement += `</select>`;
 
-    modalContent.innerHTML= htmlElement;
-
+  modalContent.innerHTML = htmlElement;
 }
 
-function onClickDeleteButton(){
-    modalTitle.innerHTML = "Autó törlése"
-    modalContent.innerHTML = "Valóban törölni akarod?"
-    buttonShowHide("yesButton", true)
-
+function onClickDeleteButton() {
+  modalTitle.innerHTML = "Autó törlése";
+  modalContent.innerHTML = "Valóban törölni akarod?";
+  buttonShowHide("yesButton", true);
 }
 
-function onClickEditButton(){
-    modalTitle.innerHTML = "Autó módosítása"
-    buttonShowHide("saveButton", true)
-       
-
+function onClickEditButton() {
+  modalTitle.innerHTML = "Autó módosítása";
+  buttonShowHide("saveButton", true);
 }
 
-function onClickSaveButton(){
-    buttonShowHide("saveButton", false)
-    buttonShowHide("yesButton", false)
+function onClickSaveButton() {
+  buttonShowHide("saveButton", false);
+  buttonShowHide("yesButton", false);
 
+  //olvassuk ki az űrlap adatait
+
+  //Ajax kéréssel küldjünk post-ot
 }
 
-
-function onClickYesButton(){
-    buttonShowHide("saveButton", false)
-    buttonShowHide("yesButton", false)
-
+function onClickYesButton() {
+  buttonShowHide("saveButton", false);
+  buttonShowHide("yesButton", false);
 }
 
-function onClickCancelButton(){
-    //Eltünteti: Save, és Yes gombokat
-    buttonShowHide("saveButton", false)
-    buttonShowHide("yesButton", false)
+function onClickCancelButton() {
+  //Eltünteti: Save, és Yes gombokat
+  buttonShowHide("saveButton", false);
+  buttonShowHide("yesButton", false);
 }
-
 
 function buttonShowHide(buttonId, ShowHide) {
   const button = document.getElementById(buttonId);
@@ -258,5 +265,3 @@ function buttonShowHide(buttonId, ShowHide) {
     button.classList.add("d-none");
   }
 }
-
-
