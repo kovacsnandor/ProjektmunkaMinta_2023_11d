@@ -241,10 +241,14 @@ function onClickDeleteButton(id) {
 }
 
 async function onClickEditButton(id) {
-  state = "edit";
-  modalTitle.innerHTML = "Autó módosítása";
-  buttonShowHide("saveButton", true);
-  selectedCarId = id;
+    let url = "http://localhost:3000/driversAbc";
+    let response = await fetch(url);
+    let data = await response.json();
+    const drivers = data.data;
+  
+    state = "edit";
+    modalTitle.innerHTML = "Autó módosítása";
+    buttonShowHide("buttonSave", true);
 
   let htmlElement = `
   <div class="col-12">
@@ -279,13 +283,13 @@ async function onClickEditButton(id) {
 
   //vége
   htmlElement += `</select>`;
-
   modalContent.innerHTML = htmlElement;
+
   url = `http://localhost:3000/cars/${id}`;
   response = await fetch(url);
   data = await response.json();
   const car = data.data[0];
-  console.log("car", car);
+  
   document.getElementById("name").value = car.name;
   document.getElementById("licenceNumber").value = car.licenceNumber;
   document.getElementById("hourlyRate").value = car.hourlyRate;
