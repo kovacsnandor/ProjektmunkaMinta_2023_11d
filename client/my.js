@@ -18,6 +18,9 @@ class Car {
   }
 }
 
+let editableCar = new Car();
+
+
 function getHome() {
   let htmlElement = `
     <h1>Home</h1>
@@ -240,8 +243,26 @@ function onClickSaveButton() {
   buttonShowHide("yesButton", false);
 
   //olvassuk ki az űrlap adatait
+  editableCar.name = document.getElementById("name").value;
+  editableCar.licenceNumber = document.getElementById("licenceNumber").value;
+  editableCar.hourlyRate = document.getElementById("hourlyRate").value;
+  editableCar.outOfTraffic = document.getElementById("outOfTraffic").checked;
+  editableCar.driverId = document.getElementById("driverId").value;
+
+  console.log("objektum",editableCar);
+  editableCar = JSON.stringify(editableCar);
+  console.log("json",editableCar);
 
   //Ajax kéréssel küldjünk post-ot
+
+  const config = {
+    method: 'POST',
+    headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(editableCar)
+}
 }
 
 function onClickYesButton() {
