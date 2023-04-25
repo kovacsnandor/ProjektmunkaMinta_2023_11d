@@ -19,7 +19,8 @@ class Car {
 }
 
 let editableCar = new Car();
-
+let state = "view";
+let selectedCarId = null;
 
 function getHome() {
   let htmlElement = `
@@ -48,6 +49,7 @@ function getContact() {
 }
 
 async function getTable() {
+  state = "view";
   //lekérjük az adatokat
   const url = "http://localhost:3000/carsWithDrivers";
   const response = await fetch(url);
@@ -185,6 +187,7 @@ async function onClickCardButton(id) {
 }
 
 async function onClickNewButton() {
+  state = "new";
   modalTitle.innerHTML = "Új autó bevitele";
   buttonShowHide("saveButton", true);
   const url = "http://localhost:3000/driversAbc";
@@ -227,18 +230,21 @@ async function onClickNewButton() {
   modalContent.innerHTML = htmlElement;
 }
 
-function onClickDeleteButton() {
+function onClickDeleteButton(id) {
+  state = "delete";
   modalTitle.innerHTML = "Autó törlése";
   modalContent.innerHTML = "Valóban törölni akarod?";
   buttonShowHide("yesButton", true);
+  selectedCarId = id;
 }
 
 function onClickEditButton() {
+  state = "edit";
   modalTitle.innerHTML = "Autó módosítása";
   buttonShowHide("saveButton", true);
 }
 
-function onClickSaveButton() {
+async function onClickSaveButton() {
   buttonShowHide("saveButton", false);
   buttonShowHide("yesButton", false);
 
@@ -248,26 +254,44 @@ function onClickSaveButton() {
   editableCar.hourlyRate = document.getElementById("hourlyRate").value;
   editableCar.outOfTraffic = document.getElementById("outOfTraffic").checked;
   editableCar.driverId = document.getElementById("driverId").value;
-
-  console.log("objektum",editableCar);
+  //obj to json konverzió
   editableCar = JSON.stringify(editableCar);
-  console.log("json",editableCar);
 
-  //Ajax kéréssel küldjünk post-ot
+  if (state === "new") {
+    //Ajax kéréssel küldjünk post-ot
+    const config = {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: editableCar,
+    };
 
-  const config = {
-    method: 'POST',
-    headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(editableCar)
+    const url = "http://localhost:3000/cars";
+    const response = await fetch(url, config);
+  } else if (state === "edit") {
+  }
+
+  //lássuk hogy bővült a táblázat
+  getTable();
 }
-}
 
-function onClickYesButton() {
+//ide építjük be törlés ajax kérést
+async function onClickYesButton() {
   buttonShowHide("saveButton", false);
   buttonShowHide("yesButton", false);
+  //Ajax kéréssel küldjünk post-ot
+  const config = {
+    method: "DELETE",
+    headers: {
+      "content-type": "application/json",
+    },
+  };
+
+  const url = `http://localhost:3000/cars/${selectedCarId}`;
+  const response = await fetch(url, config);
+  //lássuk hogy tölrődött a sor
+  getTable();
 }
 
 function onClickCancelButton() {

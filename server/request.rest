@@ -30,7 +30,7 @@ Content-Type: application/json
 }
 
 ### delete car by id
-delete http://localhost:3000/cars/625
+delete http://localhost:3000/cars/633
 
 ### put car
 put http://localhost:3000/cars/625
