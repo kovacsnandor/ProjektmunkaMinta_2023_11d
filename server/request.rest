@@ -24,9 +24,9 @@ Content-Type: application/json
 {
     "name": "Mercedes789",
     "licenceNumber": "MM-111",
-    "hourlyRate": 2500,
+    "hourlyRate": "2500",
     "outOfTraffic": true,
-    "driverId": null
+    "driverId": "13"
 }
 
 ### delete car by id

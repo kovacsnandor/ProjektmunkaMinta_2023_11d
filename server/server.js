@@ -148,7 +148,7 @@ app.get("/carsWithDriversReal", (req, res) => {
 });
 
 app.post("/cars", (req, res) => {
-  console.log(req.body);
+  // console.log(req.body);
   const newR = {
     name: sanitizeHtml(req.body.name),
     licenceNumber: sanitizeHtml(req.body.licenceNumber),
@@ -189,6 +189,7 @@ app.put("/cars/:id", (req, res) => {
     outOfTraffic: req.body.outOfTraffic,
     driverId: req.body.driverId
   };
+  console.log("put", newR);
   pool.getConnection(function (error, connection) {
     if (error) {
       sendingInfo(res, 0, "server error", [], 403);

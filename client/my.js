@@ -313,22 +313,21 @@ async function onClickSaveButton() {
       ? null
       : document.getElementById("driverId").value;
   //obj to json konverzió
-  editableCar = JSON.stringify(editableCar);
 
   if (state === "new") {
-    //Ajax kéréssel küldjünk post-ot
+    const url = "http://localhost:3000/cars";
+    const body = JSON.stringify(editableCar);
     const config = {
       method: "POST",
       headers: {
         "content-type": "application/json",
       },
-      body: editableCar,
+      body: body,
     };
-
-    const url = "http://localhost:3000/cars";
     const response = await fetch(url, config);
   } else if (state === "edit") {
     const url = `http://localhost:3000/cars/${selectedCarId}`;
+    console.log("put",editableCar);
     const body = JSON.stringify(editableCar);
     const config = {
       method: "PUT",
