@@ -21,6 +21,7 @@ class Car {
 let editableCar = new Car();
 let state = "view";
 let selectedCarId = null;
+let loadedDriverId = null;
 
 function getHome() {
   let htmlElement = `
@@ -241,14 +242,15 @@ function onClickDeleteButton(id) {
 }
 
 async function onClickEditButton(id) {
-    let url = "http://localhost:3000/freeDriversAbc";
-    let response = await fetch(url);
-    let data = await response.json();
-    const drivers = data.data;
-  
-    state = "edit";
-    modalTitle.innerHTML = "Autó módosítása";
-    buttonShowHide("saveButton", true);
+  //sofőrök beolvasása -> drivers
+  let url = "http://localhost:3000/freeDriversAbc";
+  let response = await fetch(url);
+  let data = await response.json();
+  const drivers = data.data;
+
+  state = "edit";
+  modalTitle.innerHTML = "Autó módosítása";
+  buttonShowHide("saveButton", true);
 
   let htmlElement = `
   <div class="col-12">
@@ -285,17 +287,19 @@ async function onClickEditButton(id) {
   htmlElement += `</select>`;
   modalContent.innerHTML = htmlElement;
 
+  //a kifálaszottt arutó -> car
   url = `http://localhost:3000/cars/${id}`;
   response = await fetch(url);
   data = await response.json();
   const car = data.data[0];
-  
+
   document.getElementById("name").value = car.name;
   document.getElementById("licenceNumber").value = car.licenceNumber;
   document.getElementById("hourlyRate").value = car.hourlyRate;
   document.getElementById("outOfTraffic").checked =
     car.outOfTraffic === "true" ? true : false;
   document.getElementById("driverId").value = car.driverId;
+  loadedDriverId = car.driverId;
   selectedCarId = id;
 }
 
@@ -308,14 +312,25 @@ async function onClickSaveButton() {
   editableCar.licenceNumber = document.getElementById("licenceNumber").value;
   editableCar.hourlyRate = document.getElementById("hourlyRate").value;
   editableCar.outOfTraffic = document.getElementById("outOfTraffic").checked;
+  
+  
+  
   editableCar.driverId =
-    document.getElementById("driverId").value === "null"
-      ? null
-      : document.getElementById("driverId").value;
-  //obj to json konverzió
+  document.getElementById("driverId").value === ""
+  ? loadedDriverId
+  : document.getElementById("driverId").value;
 
+  
+  editableCar.driverId =
+  document.getElementById("driverId").value === "null"
+  ? null
+  : editableCar.driverId;
+
+  console.log(editableCar);
+  
   if (state === "new") {
     const url = "http://localhost:3000/cars";
+    //obj to json konverzió
     const body = JSON.stringify(editableCar);
     const config = {
       method: "POST",
@@ -327,7 +342,6 @@ async function onClickSaveButton() {
     const response = await fetch(url, config);
   } else if (state === "edit") {
     const url = `http://localhost:3000/cars/${selectedCarId}`;
-    console.log("put",editableCar);
     const body = JSON.stringify(editableCar);
     const config = {
       method: "PUT",
@@ -337,7 +351,6 @@ async function onClickSaveButton() {
       body: body,
     };
     const response = await fetch(url, config);
-
   }
 
   //lássuk hogy bővült a táblázat
